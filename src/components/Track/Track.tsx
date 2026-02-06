@@ -3,6 +3,7 @@
 import { Track as TrackType } from '@/components/sharedTypes/track';
 import { setCurrentTrack } from '@/store/features/trackSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
+import { Track as TrackType } from '@/components/sharedTypes/track';
 import { formatTime } from '@/utils/time';
 import Link from 'next/link';
 import styles from './Track.module.css';
@@ -62,6 +63,10 @@ export const Track = ({ track, isHeader = false }: TrackProps) => {
                 className={`${styles.track__playingDot} ${isPlaying ? styles.playing : ''}`}
               ></div>
             )}
+    <div className={styles.playlist__item}>
+      <div className={styles.playlist__track}>
+        <div className={styles.track__title}>
+          <div className={styles.track__titleImage}>
             <svg className={styles.track__titleSvg}>
               <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
             </svg>
