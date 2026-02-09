@@ -3,6 +3,9 @@
 import { Track as TrackType } from '@/components/sharedTypes/track';
 import { setCurrentTrack } from '@/store/features/trackSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
+import { Track as TrackType } from '@/components/sharedTypes/track';
+import { setCurrentTrack } from '@/store/features/trackSlice';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 import { formatTime } from '@/utils/time';
 import Link from 'next/link';
 import styles from './Track.module.css';
@@ -54,6 +57,15 @@ export const Track = ({ track, isHeader = false }: TrackProps) => {
       className={`${styles.playlist__item} ${isActive ? styles.active : ''}`}
       onClick={handleTrackClick}
     >
+      <div className={styles.playlist__track}>
+        <div className={styles.track__title}>
+          <div className={styles.track__titleImage}>
+            {isActive && (
+              <div
+                className={`${styles.track__playingDot} ${isPlaying ? styles.playing : ''}`}
+              ></div>
+            )}
+    <div className={styles.playlist__item}>
       <div className={styles.playlist__track}>
         <div className={styles.track__title}>
           <div className={styles.track__titleImage}>

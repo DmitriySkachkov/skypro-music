@@ -145,4 +145,9 @@ export const {
   playNextTrack,
   playPrevTrack,
 } = trackSlice.actions;
+  },
+});
+
+export const { setCurrentTrack, togglePlayPause, setIsPlaying } =
+  trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

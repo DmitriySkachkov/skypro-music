@@ -11,6 +11,7 @@ import {
   toggleRepeat,
   toggleShuffle,
 } from '@/store/features/trackSlice';
+import { setIsPlaying, togglePlayPause } from '@/store/features/trackSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import cn from 'classnames';
 import { useEffect, useRef } from 'react';
@@ -60,6 +61,7 @@ export const Bar = () => {
       audio.pause();
     }
   }, [isPlaying, dispatch, currentTrack]);
+  }, [isPlaying, dispatch]);
 
   // Загружаем новый трек только когда меняется currentTrack
   useEffect(() => {
@@ -86,6 +88,17 @@ export const Bar = () => {
 
     const handleLoadedMetadata = () => {
       dispatch(setDuration(audio.duration));
+    const handleLoadStart = () => {
+      // Трек начал загружаться
+    };
+
+    const handleLoadedData = () => {
+      if (isPlaying) {
+        audio.play().catch((error) => {
+          console.error('Ошибка воспроизведения:', error);
+          dispatch(setIsPlaying(false));
+        });
+      }
     };
 
     // Добавляем обработчики
@@ -97,6 +110,14 @@ export const Bar = () => {
     // Загружаем новый трек
     audio.src = currentTrack.track_file;
     audio.load();
+    audio.addEventListener('loadstart', handleLoadStart);
+    audio.addEventListener('loadeddata', handleLoadedData);
+
+    // Загружаем новый трек только если это действительно новый трек
+    if (audio.src !== currentTrack.track_file) {
+      audio.src = currentTrack.track_file;
+      audio.load();
+    }
 
     // Очищаем обработчики при размонтировании
     return () => {
@@ -131,6 +152,10 @@ export const Bar = () => {
       audio.removeEventListener('ended', handleEnded);
     };
   }, [currentTrack, dispatch, isRepeating]);
+      audio.removeEventListener('loadstart', handleLoadStart);
+      audio.removeEventListener('loadeddata', handleLoadedData);
+    };
+  }, [currentTrack, dispatch]);
 
   const handlePlayPause = () => {
     if (currentTrack) {
@@ -204,6 +229,10 @@ export const Bar = () => {
           <div className={styles.bar__player}>
             <div className={styles.player__controls}>
               <div className={styles.player__btnPrev} onClick={handlePrevTrack}>
+              <div
+                className={styles.player__btnPrev}
+                onClick={handleNotImplemented}
+              >
                 <svg className={styles.player__btnPrevSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-prev"></use>
                 </svg>
@@ -223,6 +252,10 @@ export const Bar = () => {
                 </svg>
               </div>
               <div className={styles.player__btnNext} onClick={handleNextTrack}>
+              <div
+                className={styles.player__btnNext}
+                onClick={handleNotImplemented}
+              >
                 <svg className={styles.player__btnNextSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-next"></use>
                 </svg>
@@ -232,6 +265,8 @@ export const Bar = () => {
                   [styles.active]: isRepeating,
                 })}
                 onClick={handleRepeat}
+                className={cn(styles.player__btnRepeat, styles.btnIcon)}
+                onClick={handleNotImplemented}
               >
                 <svg className={styles.player__btnRepeatSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-repeat"></use>
@@ -242,6 +277,8 @@ export const Bar = () => {
                   [styles.active]: isShuffled,
                 })}
                 onClick={handleShuffle}
+                className={cn(styles.player__btnShuffle, styles.btnIcon)}
+                onClick={handleNotImplemented}
               >
                 <svg className={styles.player__btnShuffleSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-shuffle"></use>

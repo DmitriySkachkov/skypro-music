@@ -34,6 +34,9 @@ export const data: Track[] = [
     release_date: '2020-02-11',
     genre: ['Рок'],
     duration_in_seconds: 95,
+    release_date: '2019-03-12',
+    genre: ['Кантри'],
+    duration_in_seconds: 234,
     album: 'Welcome to the Party',
     logo: null,
     track_file:
@@ -47,6 +50,9 @@ export const data: Track[] = [
     release_date: '2020-02-11',
     genre: ['Электронная музыка'],
     duration_in_seconds: 208,
+    release_date: '2011-06-12',
+    genre: ['Электроника'],
+    duration_in_seconds: 103,
     album: 'Fluffing a Duck',
     logo: null,
     track_file:
@@ -58,6 +64,9 @@ export const data: Track[] = [
     name: 'Rockstar',
     author: 'Audionautix',
     release_date: '2020-02-11',
+    genre: ['Рок'],
+    duration_in_seconds: 165,
+    release_date: '2015-06-12',
     genre: ['Рок'],
     duration_in_seconds: 165,
     album: 'Rockstar',
@@ -73,6 +82,9 @@ export const data: Track[] = [
     release_date: '2020-02-11',
     genre: ['Электронная музыка'],
     duration_in_seconds: 123,
+    release_date: '2015-06-12',
+    genre: ['Электроника'],
+    duration_in_seconds: 185,
     album: 'Enthusiast',
     logo: null,
     track_file:
@@ -90,6 +102,15 @@ export const data: Track[] = [
     logo: null,
     track_file:
       'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Kevin_MacLeod_-_UFO.mp3',
+    name: 'Shipping Lanes',
+    author: 'Chad Crouch',
+    release_date: '2015-06-12',
+    genre: ['Кантри'],
+    duration_in_seconds: 126,
+    album: 'Shipping Lanes',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Kevin_MacLeod_-_UFO.mp3',
     stared_user: [],
   },
   {
@@ -103,6 +124,15 @@ export const data: Track[] = [
     logo: null,
     track_file:
       'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Moombahton_-_Islamander_Light.mp3',
+    name: 'PFM',
+    author: 'Ilya Truhanov',
+    release_date: '2017-05-18',
+    genre: ['Инди'],
+    duration_in_seconds: 163,
+    album: 'PFM',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Moombahton_-_Islamander_Light.mp3',
     stared_user: [],
   },
   {
@@ -112,6 +142,9 @@ export const data: Track[] = [
     release_date: '2020-02-11',
     genre: ['Классическая музыка'],
     duration_in_seconds: 187,
+    release_date: '2018-03-24',
+    genre: ['Кантри'],
+    duration_in_seconds: 227,
     album: 'Midnight Tale',
     logo: null,
     track_file:
@@ -129,6 +162,15 @@ export const data: Track[] = [
     logo: null,
     track_file:
       'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Alexander_Nesterenko_-_Chale.mp3',
+    name: 'Signature',
+    author: 'Jeremy Blake',
+    release_date: '2017-06-09',
+    genre: ['Электроника'],
+    duration_in_seconds: 179,
+    album: 'Signature',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Alexander_Nesterenko_-_Chale.mp3',
     stared_user: [],
   },
   {
@@ -139,6 +181,15 @@ export const data: Track[] = [
     genre: ['Кантри'],
     duration_in_seconds: 178,
     album: 'The Longest Year',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Kevin_MacLeod_-_The_Longest_Year.mp3',
+    name: 'Brave',
+    author: 'Aakash Gandhi',
+    release_date: '2019-03-18',
+    genre: ['Рок'],
+    duration_in_seconds: 192,
+    album: 'Brave',
     logo: null,
     track_file:
       'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Kevin_MacLeod_-_The_Longest_Year.mp3',
@@ -155,6 +206,15 @@ export const data: Track[] = [
     logo: null,
     track_file:
       'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Summer.mp3',
+    name: 'Dreams',
+    author: 'Aakash Gandhi',
+    release_date: '2019-03-18',
+    genre: ['Рок'],
+    duration_in_seconds: 234,
+    album: 'Dreams',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Summer.mp3',
     stared_user: [],
   },
   {
@@ -162,6 +222,15 @@ export const data: Track[] = [
     name: 'Sunshine',
     author: 'Benjamin Tissot',
     release_date: '2020-02-11',
+    genre: ['Поп'],
+    duration_in_seconds: 167,
+    album: 'Sunshine',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Sunshine.mp3',
+    name: 'Me & You',
+    author: 'Gravity Sound',
+    release_date: '2020-02-14',
     genre: ['Поп'],
     duration_in_seconds: 167,
     album: 'Sunshine',
@@ -181,6 +250,15 @@ export const data: Track[] = [
     logo: null,
     track_file:
       'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Winter.mp3',
+    name: 'Soul',
+    author: 'Gravity Sound',
+    release_date: '2020-04-27',
+    genre: ['Поп'],
+    duration_in_seconds: 189,
+    album: 'Winter',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Winter.mp3',
     stared_user: [],
   },
   {
@@ -188,6 +266,15 @@ export const data: Track[] = [
     name: 'Spring',
     author: 'Benjamin Tissot',
     release_date: '2020-02-11',
+    genre: ['Поп'],
+    duration_in_seconds: 156,
+    album: 'Spring',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Spring.mp3',
+    name: 'World',
+    author: 'Gravity Sound',
+    release_date: '2020-07-06',
     genre: ['Поп'],
     duration_in_seconds: 156,
     album: 'Spring',
@@ -207,6 +294,15 @@ export const data: Track[] = [
     logo: null,
     track_file:
       'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Autumn.mp3',
+    name: 'Time',
+    author: 'Gravity Sound',
+    release_date: '2020-11-15',
+    genre: ['Поп'],
+    duration_in_seconds: 172,
+    album: 'Autumn',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Autumn.mp3',
     stared_user: [],
   },
   {
@@ -214,6 +310,15 @@ export const data: Track[] = [
     name: 'Rain',
     author: 'Benjamin Tissot',
     release_date: '2020-02-11',
+    genre: ['Поп'],
+    duration_in_seconds: 148,
+    album: 'Rain',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Rain.mp3',
+    name: 'Puppy',
+    author: 'Gravity Sound',
+    release_date: '2021-02-05',
     genre: ['Поп'],
     duration_in_seconds: 148,
     album: 'Rain',
@@ -233,6 +338,15 @@ export const data: Track[] = [
     logo: null,
     track_file:
       'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Snow.mp3',
+    name: 'Puppy2',
+    author: 'Gravity Sound',
+    release_date: '2021-03-17',
+    genre: ['Поп'],
+    duration_in_seconds: 163,
+    album: 'Snow',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Snow.mp3',
     stared_user: [],
   },
   {
@@ -240,6 +354,15 @@ export const data: Track[] = [
     name: 'Wind',
     author: 'Benjamin Tissot',
     release_date: '2020-02-11',
+    genre: ['Поп'],
+    duration_in_seconds: 151,
+    album: 'Wind',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Wind.mp3',
+    name: 'Puppy3',
+    author: 'Gravity Sound',
+    release_date: '2021-05-14',
     genre: ['Поп'],
     duration_in_seconds: 151,
     album: 'Wind',
@@ -259,6 +382,15 @@ export const data: Track[] = [
     logo: null,
     track_file:
       'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Fire.mp3',
+    name: 'Puppy4',
+    author: 'Gravity Sound',
+    release_date: '2021-07-16',
+    genre: ['Поп'],
+    duration_in_seconds: 175,
+    album: 'Fire',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Fire.mp3',
     stared_user: [],
   },
   {
@@ -266,6 +398,15 @@ export const data: Track[] = [
     name: 'Earth',
     author: 'Benjamin Tissot',
     release_date: '2020-02-11',
+    genre: ['Поп'],
+    duration_in_seconds: 142,
+    album: 'Earth',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Benjamin_Tissot_-_Earth.mp3',
+    name: 'Puppy5',
+    author: 'Gravity Sound',
+    release_date: '2021-08-24',
     genre: ['Поп'],
     duration_in_seconds: 142,
     album: 'Earth',
