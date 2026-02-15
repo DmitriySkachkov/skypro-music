@@ -13,8 +13,9 @@ import {
 } from '@/store/features/trackSlice';
 import { setIsPlaying, togglePlayPause } from '@/store/features/trackSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useLikeTrack } from '@/hooks/useLikeTrack';
 import cn from 'classnames';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import styles from './Bar.module.css';
 
 // Функция для форматирования времени в формат MM:SS
@@ -36,6 +37,8 @@ export const Bar = () => {
   const volume = useAppSelector((state) => state.tracks.volume);
   const currentTime = useAppSelector((state) => state.tracks.currentTime);
   const duration = useAppSelector((state) => state.tracks.duration);
+
+  const { toggleLike, isLike, isLoading } = useLikeTrack(currentTrack);
 
   // Управление громкостью
   useEffect(() => {
@@ -157,45 +160,56 @@ export const Bar = () => {
     };
   }, [currentTrack, dispatch]);
 
-  const handlePlayPause = () => {
+  // Мемоизируем все обработчики для предотвращения их пересоздания
+  const handlePlayPause = useCallback(() => {
     if (currentTrack) {
       dispatch(togglePlayPause());
     }
-  };
+  }, [currentTrack, dispatch]);
 
-  const handlePrevTrack = () => {
+  const handlePrevTrack = useCallback(() => {
     dispatch(playPrevTrack());
-  };
+  }, [dispatch]);
 
-  const handleNextTrack = () => {
+  const handleNextTrack = useCallback(() => {
     dispatch(playNextTrack());
-  };
+  }, [dispatch]);
 
-  const handleShuffle = () => {
+  const handleShuffle = useCallback(() => {
     dispatch(toggleShuffle());
-  };
+  }, [dispatch]);
 
-  const handleRepeat = () => {
+  const handleRepeat = useCallback(() => {
     dispatch(toggleRepeat());
-  };
+  }, [dispatch]);
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    dispatch(setVolume(newVolume));
-  };
+  const handleVolumeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newVolume = parseFloat(e.target.value);
+      dispatch(setVolume(newVolume));
+    },
+    [dispatch],
+  );
 
-  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
-    if (!audio || !duration) return;
+  const handleProgressChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const audio = audioRef.current;
+      if (!audio || !duration) return;
 
-    const newTime = parseFloat(e.target.value);
-    audio.currentTime = newTime;
-    dispatch(setCurrentTime(newTime));
-  };
+      const newTime = parseFloat(e.target.value);
+      audio.currentTime = newTime;
+      dispatch(setCurrentTime(newTime));
+    },
+    [duration, dispatch],
+  );
 
-  const handleNotImplemented = () => {
-    alert('Еще не реализовано');
-  };
+  const handleLikeClick = useCallback(() => {
+    toggleLike();
+  }, [toggleLike]);
+
+  const handleDislikeClick = useCallback(() => {
+    alert('Функция дизлайка еще не реализована');
+  }, []);
 
   return (
     <div className={styles.bar}>
@@ -210,9 +224,13 @@ export const Bar = () => {
               value={currentTime || 0}
               onChange={handleProgressChange}
               className={styles.progressBar}
-              style={{
-                '--progress-percent': duration ? `${(currentTime / duration) * 100}%` : '0%'
-              } as React.CSSProperties}
+              style={
+                {
+                  '--progress-percent': duration
+                    ? `${(currentTime / duration) * 100}%`
+                    : '0%',
+                } as React.CSSProperties
+              }
             />
           </div>
           <div className={styles.progressTime}>
@@ -305,16 +323,20 @@ export const Bar = () => {
               </div>
               <div className={styles.trackPlay__dislike}>
                 <div
-                  className={cn(styles.player__btnShuffle, styles.btnIcon)}
-                  onClick={handleNotImplemented}
+                  className={cn(styles.trackPlay__likeBtn, styles.btnIcon, {
+                    [styles.liked]: isLike,
+                    [styles.loading]: isLoading,
+                  })}
+                  onClick={handleLikeClick}
+                  title={isLike ? 'Удалить из избранного' : 'Добавить в избранное'}
                 >
                   <svg className={styles.trackPlay__likeSvg}>
                     <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
                   </svg>
                 </div>
                 <div
-                  className={cn(styles.trackPlay__dislike, styles.btnIcon)}
-                  onClick={handleNotImplemented}
+                  className={cn(styles.trackPlay__dislikeBtn, styles.btnIcon)}
+                  onClick={handleDislikeClick}
                 >
                   <svg className={styles.trackPlay__dislikeSvg}>
                     <use xlinkHref="/img/icon/sprite.svg#icon-dislike"></use>

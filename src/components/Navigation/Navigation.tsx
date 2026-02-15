@@ -1,17 +1,41 @@
 'use client';
 
+import { logout, restoreAuth } from '@/store/features/authSlice';
+import { clearFavoriteTracks } from '@/store/features/trackSlice';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 import cn from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, useCallback } from 'react';
 import styles from './Navigation.module.css';
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false); // ← ДОБАВИТЬ эту строку
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // Восстанавливаем авторизацию из localStorage после монтирования
+  useEffect(() => {
+    setIsClient(true);
+    dispatch(restoreAuth());
+  }, [dispatch]);
+
+  // Мемоизируем обработчик переключения меню
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen((prev) => !prev);
+  }, []);
+
+  // Мемоизируем обработчик выхода
+  const handleLogout = useCallback(() => {
+    setIsLoggingOut(true);
+    dispatch(clearFavoriteTracks()); // Очищаем избранные треки
+    dispatch(logout()); // Выходим из аккаунта
+    router.push('/');
+  }, [dispatch, router]);
 
   return (
     <nav className={styles.main__nav}>
@@ -40,16 +64,29 @@ export const Navigation = () => {
               Главное
             </Link>
           </li>
-          <li className={styles.menu__item}>
-            <Link href="/my-playlist" className={styles.menu__link}>
-              Мой плейлист
-            </Link>
-          </li>
-          <li className={styles.menu__item}>
-            <Link href="/signin" className={styles.menu__link}>
-              Войти
-            </Link>
-          </li>
+          {isClient && isAuthenticated && (
+            <li className={styles.menu__item}>
+              <Link href="/my-playlist" className={styles.menu__link}>
+                Мой плейлист
+              </Link>
+            </li>
+          )}
+          {!isLoggingOut && isClient && isAuthenticated ? (
+            <li className={styles.menu__item}>
+              <button onClick={handleLogout} className={styles.menu__link}>
+                Выйти
+              </button>
+            </li>
+          ) : (
+            !isLoggingOut &&
+            isClient && (
+              <li className={styles.menu__item}>
+                <Link href="/signin" className={styles.menu__link}>
+                  Войти
+                </Link>
+              </li>
+            )
+          )}
         </ul>
       </div>
     </nav>

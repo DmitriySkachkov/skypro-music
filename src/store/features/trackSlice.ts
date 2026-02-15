@@ -1,29 +1,49 @@
+import { getAllTracks } from '@/api/tracksApi';
 import { Track } from '@/components/sharedTypes/track';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type InitialStateType = {
   currentTrack: Track | null;
   isPlaying: boolean;
   playlist: Track[];
+  favoriteTracks: Track[];
   isShuffled: boolean;
   shuffledPlaylist: Track[];
   isRepeating: boolean;
   volume: number;
   currentTime: number;
   duration: number;
+  isLoading: boolean;
+  error: string | null;
 };
 
 const initialState: InitialStateType = {
   currentTrack: null,
   isPlaying: false,
   playlist: [],
+  favoriteTracks: [],
   isShuffled: false,
   shuffledPlaylist: [],
   isRepeating: false,
   volume: 0.5, // Громкость по умолчанию 50%
   currentTime: 0,
   duration: 0,
+  isLoading: false,
+  error: null,
 };
+
+// Асинхронная загрузка всех треков
+export const fetchAllTracks = createAsyncThunk(
+  'tracks/fetchAll',
+  async (_, { rejectWithValue }) => {
+    try {
+      const tracks = await getAllTracks();
+      return tracks;
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
+    }
+  },
+);
 
 // Функция для перемешивания массива (алгоритм Fisher-Yates)
 const shuffleArray = (array: Track[]): Track[] => {
@@ -129,6 +149,45 @@ const trackSlice = createSlice({
       }
       // Если это первый трек - ничего не делаем
     },
+    setFavoriteTracks: (state, action: PayloadAction<Track[]>) => {
+      state.favoriteTracks = action.payload;
+    },
+    addLikedTrack: (state, action: PayloadAction<Track>) => {
+      // Проверяем, что трек еще не добавлен
+      const exists = state.favoriteTracks.some(
+        (track) => track._id === action.payload._id,
+      );
+      if (!exists) {
+        state.favoriteTracks.push(action.payload);
+      }
+    },
+    removeLikedTrack: (state, action: PayloadAction<Track>) => {
+      state.favoriteTracks = state.favoriteTracks.filter(
+        (track) => track._id !== action.payload._id,
+      );
+    },
+    clearFavoriteTracks: (state) => {
+      state.favoriteTracks = [];
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAllTracks.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllTracks.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.playlist = action.payload;
+        if (state.isShuffled) {
+          state.shuffledPlaylist = shuffleArray(action.payload);
+        }
+        state.error = null;
+      })
+      .addCase(fetchAllTracks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = (action.payload as string) || 'Ошибка загрузки треков';
+      });
   },
 });
 
@@ -144,6 +203,10 @@ export const {
   setDuration,
   playNextTrack,
   playPrevTrack,
+  setFavoriteTracks,
+  addLikedTrack,
+  removeLikedTrack,
+  clearFavoriteTracks,
 } = trackSlice.actions;
   },
 });
