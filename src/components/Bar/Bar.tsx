@@ -1,5 +1,6 @@
 'use client';
 
+import { useLikeTrack } from '@/hooks/useLikeTrack';
 import {
   playNextTrack,
   playPrevTrack,
@@ -13,18 +14,11 @@ import {
 } from '@/store/features/trackSlice';
 import { setIsPlaying, togglePlayPause } from '@/store/features/trackSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
+import { handleAudioPlayError } from '@/utils/audioErrorHandler';
+import { formatTime } from '@/utils/time';
 import cn from 'classnames';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import styles from './Bar.module.css';
-
-// Функция для форматирования времени в формат MM:SS
-const formatTime = (seconds: number): string => {
-  if (isNaN(seconds) || seconds < 0) return '0:00';
-
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
-  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-};
 
 export const Bar = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -36,6 +30,8 @@ export const Bar = () => {
   const volume = useAppSelector((state) => state.tracks.volume);
   const currentTime = useAppSelector((state) => state.tracks.currentTime);
   const duration = useAppSelector((state) => state.tracks.duration);
+
+  const { toggleLike, isLike, isLoading } = useLikeTrack(currentTrack);
 
   // Управление громкостью
   useEffect(() => {
@@ -53,8 +49,7 @@ export const Bar = () => {
       // Проверяем, что аудио готово к воспроизведению
       if (audio.readyState >= 2) {
         audio.play().catch((error) => {
-          console.error('Ошибка воспроизведения:', error);
-          dispatch(setIsPlaying(false));
+          handleAudioPlayError(error, dispatch);
         });
       }
     } else {
@@ -71,14 +66,12 @@ export const Bar = () => {
     const handleCanPlay = () => {
       if (isPlaying) {
         audio.play().catch((error) => {
-          console.error('Ошибка воспроизведения:', error);
-          dispatch(setIsPlaying(false));
+          handleAudioPlayError(error, dispatch);
         });
       }
     };
 
     const handleError = (e: Event) => {
-      console.error('Ошибка загрузки аудио для трека:', currentTrack.name);
       dispatch(setIsPlaying(false));
     };
 
@@ -138,7 +131,7 @@ export const Bar = () => {
       if (isRepeating) {
         audio.currentTime = 0;
         audio.play().catch((error) => {
-          console.error('Ошибка воспроизведения:', error);
+          handleAudioPlayError(error, dispatch);
         });
       } else {
         // Автоматически переключаемся на следующий трек
@@ -157,45 +150,52 @@ export const Bar = () => {
     };
   }, [currentTrack, dispatch]);
 
-  const handlePlayPause = () => {
+  // Мемоизируем все обработчики для предотвращения их пересоздания
+  const handlePlayPause = useCallback(() => {
     if (currentTrack) {
       dispatch(togglePlayPause());
     }
-  };
+  }, [currentTrack, dispatch]);
 
-  const handlePrevTrack = () => {
+  const handlePrevTrack = useCallback(() => {
     dispatch(playPrevTrack());
-  };
+  }, [dispatch]);
 
-  const handleNextTrack = () => {
+  const handleNextTrack = useCallback(() => {
     dispatch(playNextTrack());
-  };
+  }, [dispatch]);
 
-  const handleShuffle = () => {
+  const handleShuffle = useCallback(() => {
     dispatch(toggleShuffle());
-  };
+  }, [dispatch]);
 
-  const handleRepeat = () => {
+  const handleRepeat = useCallback(() => {
     dispatch(toggleRepeat());
-  };
+  }, [dispatch]);
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    dispatch(setVolume(newVolume));
-  };
+  const handleVolumeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newVolume = parseFloat(e.target.value);
+      dispatch(setVolume(newVolume));
+    },
+    [dispatch],
+  );
 
-  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
-    if (!audio || !duration) return;
+  const handleProgressChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const audio = audioRef.current;
+      if (!audio || !duration) return;
 
-    const newTime = parseFloat(e.target.value);
-    audio.currentTime = newTime;
-    dispatch(setCurrentTime(newTime));
-  };
+      const newTime = parseFloat(e.target.value);
+      audio.currentTime = newTime;
+      dispatch(setCurrentTime(newTime));
+    },
+    [duration, dispatch],
+  );
 
-  const handleNotImplemented = () => {
-    alert('Еще не реализовано');
-  };
+  const handleLikeClick = useCallback(() => {
+    toggleLike();
+  }, [toggleLike]);
 
   return (
     <div className={styles.bar}>
@@ -210,9 +210,13 @@ export const Bar = () => {
               value={currentTime || 0}
               onChange={handleProgressChange}
               className={styles.progressBar}
-              style={{
-                '--progress-percent': duration ? `${(currentTime / duration) * 100}%` : '0%'
-              } as React.CSSProperties}
+              style={
+                {
+                  '--progress-percent': duration
+                    ? `${(currentTime / duration) * 100}%`
+                    : '0%',
+                } as React.CSSProperties
+              }
             />
           </div>
           <div className={styles.progressTime}>
@@ -303,23 +307,19 @@ export const Bar = () => {
                   </a>
                 </div>
               </div>
-              <div className={styles.trackPlay__dislike}>
-                <div
-                  className={cn(styles.player__btnShuffle, styles.btnIcon)}
-                  onClick={handleNotImplemented}
-                >
-                  <svg className={styles.trackPlay__likeSvg}>
-                    <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
-                  </svg>
-                </div>
-                <div
-                  className={cn(styles.trackPlay__dislike, styles.btnIcon)}
-                  onClick={handleNotImplemented}
-                >
-                  <svg className={styles.trackPlay__dislikeSvg}>
-                    <use xlinkHref="/img/icon/sprite.svg#icon-dislike"></use>
-                  </svg>
-                </div>
+              <div
+                className={cn(styles.trackPlay__likeBtn, styles.btnIcon, {
+                  [styles.liked]: isLike,
+                  [styles.loading]: isLoading,
+                })}
+                onClick={handleLikeClick}
+                title={
+                  isLike ? 'Удалить из избранного' : 'Добавить в избранное'
+                }
+              >
+                <svg className={styles.trackPlay__likeSvg}>
+                  <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
+                </svg>
               </div>
             </div>
           </div>
