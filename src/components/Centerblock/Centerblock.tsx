@@ -8,16 +8,17 @@ import { TrackType } from '@/sharedTypes/sharedTypes';
 
 type CenterblockProps = {
   tracks: TrackType[];
-  itemName?: string;
-  loading?: boolean;
-  error?: string;
+  isLoading: boolean;
+  errorRes: string | null;
+  itemName: string;
+  onLikeClick?: (trackId: number) => void | Promise<void>;
 };
 
 export default function Centerblock({
   tracks,
+  isLoading,
+  errorRes,
   itemName = 'Трек',
-  loading,
-  error,
 }: CenterblockProps) {
   const filters = ['исполнителю', 'году выпуска', 'жанру'];
   const items = ['Трек', 'Исполнитель', 'Альбом', 'Время'];
@@ -65,7 +66,7 @@ export default function Centerblock({
       <div className={styles.centerblock__content}>
         <FilterItem items={items} />
 
-        {loading ? (
+        {isLoading ? (
           <div className={styles.loading}>
             Данные загружаются
             <span className={styles.dots}>
@@ -74,10 +75,10 @@ export default function Centerblock({
               <span></span>
             </span>
           </div>
-        ) : error ? (
+        ) : errorRes ? (
           // <div className={styles.error}>{error}</div>
           <div className={styles.error}>
-            {error}
+            {errorRes}
             <span className={styles.errorDots}>
               <span>!</span>
               <span>!</span>
