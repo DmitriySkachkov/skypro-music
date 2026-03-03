@@ -1,8 +1,22 @@
-import type { NextConfig } from 'next';
+// import { redirect } from 'next/dist/server/api-utils';
 
-const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
+module.exports = {
+  async redirect() {
+    return [
+      {
+        source: '/',
+        destination: '/music/main',
+        permanent: true,
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+// import type { NextConfig } from 'next';
+
+// const nextConfig: NextConfig = {
+//   /* config options here */
+//   reactCompiler: true,
+// };
+
+// export default nextConfig;
