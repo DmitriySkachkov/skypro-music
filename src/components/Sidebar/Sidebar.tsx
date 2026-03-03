@@ -1,4 +1,4 @@
-import styles from './Sidebar.module.css';
+import styles from './sidebar.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 
