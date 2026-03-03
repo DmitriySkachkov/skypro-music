@@ -54,8 +54,8 @@
 .burger__line {
   display: inline-block;
   width: 100%;
-  /* height: 1px; */
-  height: auto;
+  height: 1px;
+  /* height: auto; */
   background-color: #d3d3d3;
 }
 

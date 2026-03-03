@@ -14,7 +14,7 @@ export default function Navigation() {
 
   return (
     <nav className={styles.main__nav}>
-      <div className={styles.nav__logo}>
+      <div className={styles.nav__logo}> 
         <Image
           width={250}
           height={170}
@@ -46,7 +46,8 @@ export default function Navigation() {
             </Link>
           </li>
           <li className={styles.menu__item}>
-            <Link href="../signin.html" className={styles.menu__link}>
+            {/* <Link href="../signin.html" className={styles.menu__link}> */}
+            <Link href="../auth/signin" className={styles.menu__link}>
               Войти
             </Link>
           </li>

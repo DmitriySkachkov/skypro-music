@@ -1,21 +1,14 @@
-import styles from './page.module.css';
-import Navigation from '../components/Navigation/Navigation';
-import Centerblock from '../components/Centerblock/Centerblock';
-import Sidebar from '../components/Sidebar/Sidebar';
-import Bar from '../components/Bar/Bar';
+'use client';
 
-export default function Home() {
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.container}>
-        <main className={styles.main}>
-          <Navigation />
-          <Centerblock />
-          <Sidebar />
-        </main>
-        <Bar />
-        <footer className="footer"></footer>
-      </div>
-    </div>
-  );
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function HomeRedirect() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/auth/signin'); 
+  }, []);
+
+  return null;
 }
