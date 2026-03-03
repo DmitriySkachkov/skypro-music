@@ -15,7 +15,7 @@ export default function FilterItem({ items }: FilterItemProps) {
           key={index}
           className={classnames(
             styles.playlistTitle__col,
-            styles[`col0${index + 1}`]
+            styles[`col0${index + 1}`],
           )}
         >
           {col === 'Время' ? (
