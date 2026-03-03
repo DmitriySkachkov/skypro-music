@@ -89,7 +89,8 @@
 }
 
 .player__btnPrev {
-  margin-right: 23px;
+  /* margin-right: 23px; */
+  margin-right: 1px;
 }
 
 .player__btnPrevSvg {
@@ -280,7 +281,8 @@
   align-items: center;
   -webkit-box-pack: end;
   -ms-flex-pack: end;
-  justify-content: end;
+  /* justify-content: end; */
+  justify-content: flex-end;
 }
 
 .volume__image {
@@ -362,4 +364,16 @@
     color: #ad61ff;
     cursor: pointer;
   }
+}
+
+.active svg {
+  stroke: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+.timePanel {
+  align-self: flex-end;
+  font-size: 12px;
+  color: #ffffff;
+  margin-bottom: 5px;
 }
