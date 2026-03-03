@@ -35,9 +35,9 @@
   color: #696969;
   text-transform: uppercase;
 
-  display: flex;           /* чтобы SVG выравнивались по центру */
+  display: flex; /* чтобы SVG выравнивались по центру */
   align-items: center;
-  gap: 4px;                /* расстояние между текстом и svg */      
+  gap: 4px; /* расстояние между текстом и svg */
 }
 
 .playlistTitle__svg {
@@ -46,7 +46,7 @@
   fill: transparent;
   stroke: #696969;
 
-  flex-shrink: 0;  /* чтобы svg не сжимался */
+  flex-shrink: 0; /* чтобы svg не сжимался */
 }
 
 .col01 {

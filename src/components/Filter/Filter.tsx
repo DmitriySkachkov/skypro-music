@@ -8,7 +8,7 @@ import { data } from '@/data';
 import { getUniqueValuesByKey } from '@/utils/helper';
 
 type FilterProps = {
-  title: string[]; 
+  title: string[];
 };
 
 export default function Filter({ title }: FilterProps) {

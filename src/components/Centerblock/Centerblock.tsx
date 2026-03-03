@@ -6,7 +6,6 @@ import Track from '../Track/Track';
 import { data } from '@/data';
 
 export default function Centerblock() {
-
   const filters = ['исполнителю', 'году выпуска', 'жанру'];
   const items = ['Трек', 'Исполнитель', 'Альбом', 'Время'];
 
@@ -21,12 +20,12 @@ export default function Centerblock() {
 
       <div className={styles.centerblock__content}>
         <FilterItem items={items} />
-        <div className={styles.content__playlist}> 
+        <div className={styles.content__playlist}>
           {data.map((track) => (
             <Track key={track._id} track={track} />
           ))}
         </div>
-      </div> 
+      </div>
     </div>
   );
 }

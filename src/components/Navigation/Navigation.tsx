@@ -20,7 +20,7 @@ export default function Navigation() {
           height={170}
           className={styles.logo__image}
           src="/img/logo.png"
-          alt={'logo'} 
+          alt={'logo'}
         />
       </div>
       <div className={styles.nav__burger} onClick={toggleMenu}>
