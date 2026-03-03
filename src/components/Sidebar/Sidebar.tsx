@@ -21,8 +21,10 @@ export default function Sidebar() {
                 className={styles.sidebar__img}
                 src="/img/playlist01.png"
                 alt="day's playlist"
-                width={250}
-                height={170}
+                fill
+                sizes="(max-width: 768px) 100vw, 250px"
+                // width={250}
+                // height={170}
               />
             </Link>
           </div>
@@ -32,8 +34,10 @@ export default function Sidebar() {
                 className={styles.sidebar__img}
                 src="/img/playlist02.png"
                 alt="day's playlist"
-                width={250}
-                height={170}
+                fill
+                sizes="(max-width: 768px) 100vw, 250px"
+                // width={250}
+                // height={170}
               />
             </Link>
           </div>
@@ -43,8 +47,10 @@ export default function Sidebar() {
                 className={styles.sidebar__img}
                 src="/img/playlist03.png"
                 alt="day's playlist"
-                width={250}
-                height={170}
+                fill
+                sizes="(max-width: 768px) 100vw, 250px"
+                // width={250}
+                // height={170}
               />
             </Link>
           </div>
