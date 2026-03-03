@@ -8,5 +8,11 @@ export interface TrackType {
   album: string;
   logo: string | null;
   track_file: string;
-  stared_user: string[]; 
+  stared_user: string[];
+}
+
+export interface ResCategoryApiType {
+  _id: number;
+  name: string;
+  items: TrackType[];
 }

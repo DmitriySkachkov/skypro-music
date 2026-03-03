@@ -6,7 +6,11 @@ type initialStateType = {
   isPlay: boolean;
   playlist: TrackType[];
   shuffledPlaylist: TrackType[];
+  allTracks: TrackType[];
+  favoriteTracks: TrackType[];
   isShuffle: boolean;
+  fetchError: null | string;
+  fetchIsLoading: boolean;
 };
 
 const initialState: initialStateType = {
@@ -14,21 +18,36 @@ const initialState: initialStateType = {
   isPlay: false,
   playlist: [],
   shuffledPlaylist: [],
+  allTracks: [],
+  favoriteTracks: [],
   isShuffle: false,
+  fetchError: null,
+  fetchIsLoading: true,
+};
+
+// Вспомогательная функция для подучения следующего или предыдущего трека
+const getNextOrPrevTrack = (
+  playlist: TrackType[],
+  currentTrack: TrackType | null,
+  direction: 'next' | 'prev',
+): TrackType | null => {
+  if (!currentTrack) return null;
+
+  const currIdx = playlist.findIndex((el) => el._id === currentTrack._id);
+  if (currIdx === -1) return null;
+
+  const newIdx = direction === 'next' ? currIdx + 1 : currIdx - 1;
+  if (newIdx < 0 || newIdx >= playlist.length) return null;
+
+  return playlist[newIdx];
 };
 
 const trackSlice = createSlice({
-  name: 'tacks',
+  name: 'tracks',
   initialState,
   reducers: {
     setCurrentTrack: (state, action: PayloadAction<TrackType>) => {
       state.currentTrack = action.payload;
-    },
-    setCurrentPlaylist: (state, action: PayloadAction<TrackType[]>) => {
-      state.playlist = action.payload;
-      state.shuffledPlaylist = [...state.playlist].sort(
-        () => Math.random() - 0.5,
-      );
     },
     setIsPlay: (state, action: PayloadAction<boolean>) => {
       state.isPlay = action.payload;
@@ -36,30 +55,39 @@ const trackSlice = createSlice({
     toggleShuffle: (state) => {
       state.isShuffle = !state.isShuffle;
     },
-
+    setCurrentPlaylist: (state, action: PayloadAction<TrackType[]>) => {
+      state.playlist = action.payload;
+      state.shuffledPlaylist = [...state.playlist].sort(
+        () => Math.random() - 0.5,
+      );
+    },
     setNextTrack: (state) => {
       const list = state.isShuffle ? state.shuffledPlaylist : state.playlist;
-      const curIndex = list.findIndex(
-        (el) => el._id === state.currentTrack?._id,
-      );
-      const next = curIndex + 1;
-
-      if (next < list.length) {
-        state.currentTrack = list[next];
-      }
+      state.currentTrack = getNextOrPrevTrack(list, state.currentTrack, 'next');
     },
-
     setPrevTrack: (state) => {
       const list = state.isShuffle ? state.shuffledPlaylist : state.playlist;
-
-      const curIndex = list.findIndex(
-        (el) => el._id === state.currentTrack?._id,
+      state.currentTrack = getNextOrPrevTrack(list, state.currentTrack, 'prev');
+    },
+    setAllTracks: (state, action: PayloadAction<TrackType[]>) => {
+      state.allTracks = action.payload;
+    },
+    setFavoriteTracks: (state, action: PayloadAction<TrackType[]>) => {
+      state.favoriteTracks = action.payload;
+    },
+    addLikedTracks: (state, action: PayloadAction<TrackType>) => {
+      state.favoriteTracks = [...state.favoriteTracks, action.payload];
+    },
+    removeLikedTracks: (state, action: PayloadAction<number>) => {
+      state.favoriteTracks = state.favoriteTracks.filter(
+        (t) => t._id !== action.payload,
       );
-      const prev = curIndex - 1;
-
-      if (prev >= 0) {
-        state.currentTrack = list[prev];
-      }
+    },
+    setFetchError: (state, action: PayloadAction<string>) => {
+      state.fetchError = action.payload;
+    },
+    setFetchIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.fetchIsLoading = action.payload;
     },
   },
 });
@@ -71,5 +99,11 @@ export const {
   setNextTrack,
   setPrevTrack,
   toggleShuffle,
+  setAllTracks,
+  setFavoriteTracks,
+  addLikedTracks,
+  removeLikedTracks,
+  setFetchError,
+  setFetchIsLoading,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

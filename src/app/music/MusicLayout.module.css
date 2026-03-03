@@ -59,14 +59,14 @@
   flex-direction: column;
 }
 
-/* === Контейнер страницы с центроблоком и сайдбаром === */
+/* Контейнер страницы с центроблоком и сайдбаром */
 .page__content {
   display: flex;
   gap: 20px;
   flex-wrap: nowrap;
 }
 
-/* === Центрблок с контентом === */
+/* Центрблок с контентом */
 .centerblock {
   flex: 1 1 auto;
   min-width: 300px;
@@ -74,7 +74,7 @@
   overflow-x: hidden;
 }
 
-/* === Сайдбар с плейлистом (справа) === */
+/* Сайдбар с плейлистом (справа) */
 .content__playlist {
   display: flex;
   flex-direction: column;
@@ -83,7 +83,7 @@
   width: 250px;
 }
 
-/* === Адаптив для планшетов (до 1440px) === */
+/* Адаптив для планшетов (до 1440px) */
 @media (max-width: 1440px) {
   .page__content {
     flex-direction: row;
@@ -97,17 +97,22 @@
   }
 }
 
-/* === Адаптив для мобильных (до 1024px) === */
+/* Адаптив для мобильных (до 1024px) */
 @media (max-width: 1024px) {
   .page__content {
-    flex-direction: column;
+    flex-direction: row;
     gap: 12px;
   }
   .content__playlist {
-    width: 100%;
-    max-height: 300px;
+    /* width: 100%; */
+    width: 200px;
+    /* max-height: 300px; */
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
   }
   .centerblock {
     padding: 12px;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 }
