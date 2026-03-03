@@ -26,11 +26,22 @@
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  cursor: pointer;
 }
 
+/* меню по умолчанию скрыто */
 .nav__menu {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  /* transition: opacity 0.3s ease; */
+}
+
+/* при клике на бургер меню показывается */
+.nav__menu_show {
   display: block;
   visibility: visible;
+  opacity: 1;
 }
 
 .logo__image {
@@ -48,8 +59,9 @@
 
 .menu__list {
   padding: 18px 0 10px 0;
-
   list-style: none;     
+
+  /* transition: all 0.3s ease; */
 }
 
 .menu__item {
