@@ -56,6 +56,7 @@ export default function Sidebar() {
                 sizes="(max-width: 768px) 100vw, 250px"
                 // width={250}
                 // height={170}
+                loading="lazy"
               />
             </Link>
           </div>
@@ -69,6 +70,7 @@ export default function Sidebar() {
                 sizes="(max-width: 768px) 100vw, 250px"
                 // width={250}
                 // height={170}
+                loading="lazy"
               />
             </Link>
           </div>

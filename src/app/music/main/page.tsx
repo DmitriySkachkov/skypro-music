@@ -1,10 +1,10 @@
 'use client';
 
+import MusicLayout from '@/app/music/MusicLayout';
 import Centerblock from '@/components/Centerblock/Centerblock';
 import { useAppSelector } from '@/store/store';
-import MusicLayout from '@/app/music/MusicLayout';
 
-export default function Home() {
+export default function Home() { 
   const { fetchError, fetchIsLoading, allTracks } = useAppSelector(
     (state) => state.tracks,
   );
@@ -20,3 +20,37 @@ export default function Home() {
     </MusicLayout>
   );
 }
+
+// 'use client';
+
+// import MusicLayout from '@/app/music/MusicLayout';
+// import Centerblock from '@/components/Centerblock/Centerblock';
+// import { setPagePlaylist, resetFilters } from '@/store/features/trackSlice';
+
+// import { useEffect } from 'react';
+// import { useAppDispatch, useAppSelector } from '@/store/store';
+
+// export default function Home() { 
+//   const { fetchError, fetchIsLoading, allTracks } = useAppSelector(
+//     (state) => state.tracks,
+//   );
+//   const dispatch = useAppDispatch();
+
+//   useEffect(() => {
+//     if (allTracks.length) {
+//       dispatch(setPagePlaylist(allTracks));
+//       dispatch(resetFilters());
+//     }
+//   }, [allTracks, dispatch]);
+
+//   return (
+//     <MusicLayout>
+//       <Centerblock
+//         tracks={allTracks}
+//         isLoading={fetchIsLoading}
+//         errorRes={fetchError}
+//         itemName="Треки"
+//       />
+//     </MusicLayout>
+//   );
+// }

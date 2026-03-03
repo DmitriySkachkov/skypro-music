@@ -37,6 +37,6 @@ export default function MusicLayout({ children }: MusicLayoutProps) {
         <Bar />
         <footer className="footer"></footer>
       </div>
-    </div>
+    </div> 
   );
 }
