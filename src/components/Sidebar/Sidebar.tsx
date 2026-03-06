@@ -40,8 +40,6 @@ export default function Sidebar() {
                 alt="day's playlist"
                 fill
                 sizes="(max-width: 768px) 100vw, 250px"
-                // width={250}
-                // height={170}
                 loading="eager"
               />
             </Link>
@@ -54,8 +52,6 @@ export default function Sidebar() {
                 alt="day's playlist"
                 fill
                 sizes="(max-width: 768px) 100vw, 250px"
-                // width={250}
-                // height={170}
                 loading="lazy"
               />
             </Link>
@@ -68,8 +64,6 @@ export default function Sidebar() {
                 alt="day's playlist"
                 fill
                 sizes="(max-width: 768px) 100vw, 250px"
-                // width={250}
-                // height={170}
                 loading="lazy"
               />
             </Link>

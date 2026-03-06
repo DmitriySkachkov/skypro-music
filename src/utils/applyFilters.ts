@@ -14,7 +14,7 @@ export const applyFilters = (state: initialStateType): TrackType[] => {
       (t) =>
         t.name.toLowerCase().includes(q) || t.author.toLowerCase().includes(q),
     );
-  } 
+  }
 
   switch (sort) {
     case 'year_new':

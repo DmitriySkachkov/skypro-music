@@ -65,7 +65,7 @@ export default function Filter({ title, tracks }: FilterProps) {
               {counters[filterName] > 0 && (
                 <span className={styles.counter}>{counters[filterName]}</span>
               )}
-            </button> 
+            </button>
 
             {activeFilter === filterName && (
               <div className={styles.filter__list}>

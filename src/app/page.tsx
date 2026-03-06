@@ -8,7 +8,7 @@ export default function HomeRedirect() {
 
   useEffect(() => {
     router.replace('/auth/signin');
-  }, []);
+  }, [router]);
 
   return null;
 }

@@ -2,7 +2,7 @@ import { TrackType } from '@/sharedTypes/sharedTypes';
 
 export function getUniqueValuesByKey(
   arr: TrackType[],
-  key: keyof TrackType, 
+  key: keyof TrackType,
 ): string[] {
   // Используем Set для хранения уникальных значений
   const uniqueValues = new Set<string>();
@@ -25,7 +25,7 @@ export function getUniqueValuesByKey(
     }
   });
 
-  // Прпеобразуем Set обратно в массив и возвращаем
+  // Преобразуем Set обратно в массив и возвращаем
   return Array.from(uniqueValues);
 }
 

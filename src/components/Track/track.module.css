@@ -120,7 +120,6 @@
   line-height: 24px;
   text-align: right;
   color: #696969;
-  /* color: #FFFFFF; */
 }
 
 .active {
@@ -144,18 +143,15 @@
   }
 }
 
-
-
-
 .track__likeContainer {
-  position: relative; 
+  position: relative;
   display: flex;
   align-items: center;
 }
 
 .loginMessage {
   position: absolute;
-  top: -28px; 
+  top: -28px;
   left: 50%;
   transform: translateX(-80%);
   color: #fff;

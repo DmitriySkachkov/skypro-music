@@ -15,6 +15,7 @@ type CenterblockProps = {
   isLoading: boolean;
   errorRes: string | null;
   itemName: string;
+  onLikeClick?: (trackId: number) => void | Promise<void>;
 };
 
 export default function Centerblock({

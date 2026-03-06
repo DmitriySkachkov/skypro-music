@@ -95,11 +95,6 @@
   border-radius: 4px;
   transition: background 0.2s ease;
 }
-/* 
-.filter__listItem.active {
-  background-color: #B672FF;
-  color: #ffffff;
-} */
 
 /* выбранный пункт */
 .filter__listItem.selected {

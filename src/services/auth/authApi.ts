@@ -23,7 +23,6 @@ export type LoginResponse = {
 };
 
 // Регистрация нового пользователя
-
 export const registerUser = async ({ email, password }: AuthData) => {
   const data = {
     email: email.trim(),
@@ -39,7 +38,6 @@ export const registerUser = async ({ email, password }: AuthData) => {
 };
 
 // Логин пользователя и получение токенов
-
 export const loginUser = async ({
   email,
   password,
@@ -68,7 +66,6 @@ export const loginUser = async ({
 };
 
 // Регистрация + авто-логин
-
 export const registerAndLogin = async ({
   email,
   password,
@@ -78,7 +75,6 @@ export const registerAndLogin = async ({
 };
 
 //  Обновление access-токена
-
 export const refreshToken = async (
   refresh: string,
 ): Promise<{ access: string }> => {
@@ -90,105 +86,3 @@ export const refreshToken = async (
 
   return response.data;
 };
-
-// import axios from 'axios';
-// import { BASE_URL } from '@/services/constants';
-
-// export type AuthData = {
-//   email: string;
-//   password: string;
-// };
-
-// export type TokenType = {
-//   access: string;
-//   refresh: string;
-// };
-
-// // Регистрация пользователя, не возвращает токены
-// export const createUser = async ({ email, password }: AuthData) => {
-//   const data = {
-//     email: email.trim(),
-//     username: email.trim(),
-//     password: password.trim(),
-//   };
-
-//   const response = await axios.post(`${BASE_URL}/user/signup/`, data, {
-//     headers: { 'Content-Type': 'application/json' },
-//   });
-
-//   return response.data;
-// };
-
-// //  Получение токенов (вход), Используем поле email
-// export const getTokens = async ({
-//   email,
-//   password,
-// }: AuthData): Promise<TokenType> => {
-//   const data = {
-//     email: email.trim(),
-//     password: password.trim(),
-//   };
-
-//   const response = await axios.post(`${BASE_URL}/user/token/`, data, {
-//     headers: { 'Content-Type': 'application/json' },
-//   });
-
-//   return response.data;
-// };
-
-// // Обновление access-токена
-// export const refreshToken = async (refresh: string) => {
-//   const response = await axios.post(
-//     `${BASE_URL}/user/token/refresh/`,
-//     { refresh },
-//     { headers: { 'Content-Type': 'application/json' } },
-//   );
-
-//   return response.data;
-// };
-
-// import axios from 'axios';
-// import { BASE_URL } from '@/services/constants';
-// import { createUserProp } from '@/services/auth/types';
-
-// export const createUser = ({ email, password }: createUserProp) => {
-//   const data = {
-//     email,
-//     password,
-//     username: email,
-//   };
-
-//   return axios.post(BASE_URL + '/user/signup/', data);
-// };
-
-// export const authUser = (data: createUserProp) => {
-//   return axios.post(BASE_URL + '/user/login/', data);
-// };
-
-// type accessTokenType = {
-//   access: string;
-// };
-
-// type refreshTokenType = {
-//   refresh: string;
-// };
-
-// type tokenType = accessTokenType & refreshTokenType;
-
-// export const getTokens = (data: createUserProp): Promise<tokenType> => {
-//   return axios.post(BASE_URL + '/user/token/', data).then((res) => res.data);
-// };
-
-// export const refreshToken = async (refresh: string) => {
-//   const res = await axios.post(
-//     BASE_URL + '/user/token/refresh/',
-//     { refresh },
-//     {
-//       headers: {
-//         'content-type': 'application/json',
-//       },
-//     },
-//   );
-
-//   return res.data;
-// };
