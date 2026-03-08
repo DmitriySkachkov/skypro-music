@@ -67,7 +67,6 @@
 .sidebar__item {
   width: 250px;
   height: 150px;
-
   position: relative;
   overflow: hidden;
 }
@@ -79,13 +78,10 @@
 .sidebar__link {
   width: 100%;
   height: 100%;
-
   display: block;
   position: relative;
 }
 
 .sidebar__img {
   object-fit: cover;
-  /* width: 100%;
-  height: auto; */
 }

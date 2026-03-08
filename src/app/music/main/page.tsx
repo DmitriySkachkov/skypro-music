@@ -1,8 +1,8 @@
 'use client';
 
+import MusicLayout from '@/app/music/MusicLayout';
 import Centerblock from '@/components/Centerblock/Centerblock';
 import { useAppSelector } from '@/store/store';
-import MusicLayout from '@/app/music/MusicLayout';
 
 export default function Home() {
   const { fetchError, fetchIsLoading, allTracks } = useAppSelector(

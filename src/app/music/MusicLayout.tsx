@@ -16,11 +16,6 @@ interface MusicLayoutProps {
 export default function MusicLayout({ children }: MusicLayoutProps) {
   const isAuthReady = useInitAuth();
 
-  // Ждём инициализацию авторизации
-  if (!isAuthReady) {
-    return null;
-  }
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -28,8 +23,16 @@ export default function MusicLayout({ children }: MusicLayoutProps) {
 
         <div className={styles.page__content}>
           <main className={styles.centerblock}>
-            <FetchingTracks />
-            {children}
+            {!isAuthReady ? (
+              <div className={styles.loader}>
+                <p>Загрузка...</p>
+              </div>
+            ) : (
+              <>
+                <FetchingTracks />
+                {children}
+              </>
+            )}
           </main>
           <Sidebar />
         </div>

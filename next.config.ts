@@ -1,5 +1,3 @@
-// import { redirect } from 'next/dist/server/api-utils';
-
 module.exports = {
   async redirect() {
     return [
@@ -11,12 +9,3 @@ module.exports = {
     ];
   },
 };
-
-// import type { NextConfig } from 'next';
-
-// const nextConfig: NextConfig = {
-//   /* config options here */
-//   reactCompiler: true,
-// };
-
-// export default nextConfig;

@@ -25,7 +25,7 @@ export function getUniqueValuesByKey(
     }
   });
 
-  // Прпеобразуем Set обратно в массив и возвращаем
+  // Преобразуем Set обратно в массив и возвращаем
   return Array.from(uniqueValues);
 }
 

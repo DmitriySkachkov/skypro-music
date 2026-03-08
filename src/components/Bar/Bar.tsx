@@ -34,7 +34,7 @@ export default function Bar() {
     isAuthReady,
   );
 
-  // ---- Воспроизведение и пауза ----
+  // Воспроизведение и пауза
   const playTrack = () => {
     if (!audioRef.current) return;
     audioRef.current.play().catch(() => {});
@@ -78,7 +78,7 @@ export default function Bar() {
     dispatch(setNextTrack());
   };
 
-  // ---- Автозапуск нового трека ----
+  // Автозапуск нового трека
   useEffect(() => {
     if (!audioRef.current || !currentTrack) return;
     audioRef.current.load();
@@ -88,7 +88,7 @@ export default function Bar() {
       .catch(() => dispatch(setIsPlay(false)));
   }, [currentTrack, dispatch]);
 
-  // ---- Управление isPlay ----
+  // Управление isPlay
   useEffect(() => {
     if (!audioRef.current) return;
     if (isPlay) audioRef.current.play().catch(() => {});

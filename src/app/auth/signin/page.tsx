@@ -1,10 +1,8 @@
 'use client';
 
-import { authUser, getTokens } from '@/services/auth/authApi';
 import styles from './signin.module.css';
 import classNames from 'classnames';
 import Link from 'next/link';
-// import { ChangeEvent, useState } from 'react';
 import { useState } from 'react';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
@@ -14,6 +12,8 @@ import {
   setAccessToken,
   setRefreshToken,
 } from '@/store/features/authSlice';
+import { loginUser } from '@/services/auth/authApi';
+import Image from 'next/image';
 
 export default function Signin() {
   const dispatch = useAppDispatch();
@@ -29,30 +29,28 @@ export default function Signin() {
     setErrorMessage('');
 
     if (!email.trim() || !password.trim()) {
-      setErrorMessage('Заполните все поля');
-      return;
+      return setErrorMessage('Заполните все поля');
     }
 
     setIsLoading(true);
 
     try {
-      // логин (проверка пользователя)
-      await authUser({ email, password });
+      const { user, tokens } = await loginUser({ email, password });
 
-      // получение токенов
-      const tokens = await getTokens({ email, password });
-
-      // сохраняем в redux
-      dispatch(setUsername(email));
+      dispatch(setUsername(user.username));
       dispatch(setAccessToken(tokens.access));
       dispatch(setRefreshToken(tokens.refresh));
 
       router.push('/music/main');
     } catch (error) {
       if (error instanceof AxiosError) {
-        setErrorMessage(error.response?.data?.message ?? 'Ошибка авторизации');
+        setErrorMessage(
+          error.response?.data?.detail ||
+            error.response?.data?.message ||
+            'Неверный логин или пароль',
+        );
       } else {
-        setErrorMessage('Неизвестная ошибка');
+        setErrorMessage('Неизвестная ошибка, попробуйте позже');
       }
     } finally {
       setIsLoading(false);
@@ -63,21 +61,28 @@ export default function Signin() {
     <>
       <Link href="/music/main">
         <div className={styles.modal__logo}>
-          <img src="/img/logo_modal.png" alt="logo" />
+          <Image
+            src="/img/logo_modal.png"
+            alt="logo"
+            width={140}
+            height={21}
+            priority
+          />
         </div>
       </Link>
 
       <input
         className={classNames(styles.modal__input, styles.login)}
-        type="text"
+        type="email"
         placeholder="Почта"
+        value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-
       <input
-        className={classNames(styles.modal__input)}
+        className={styles.modal__input}
         type="password"
         placeholder="Пароль"
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
 
