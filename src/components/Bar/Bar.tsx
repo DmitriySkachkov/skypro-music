@@ -37,7 +37,9 @@ export default function Bar() {
   // Воспроизведение и пауза
   const playTrack = () => {
     if (!audioRef.current) return;
-    audioRef.current.play().catch(() => {});
+    audioRef.current.play().catch((err) => {
+      console.warn('Не удалось воспроизвести трек:', err.message);
+    });
     dispatch(setIsPlay(true));
   };
 
@@ -72,7 +74,9 @@ export default function Bar() {
 
   const handleEnded = () => {
     if (isLoop) {
-      audioRef.current?.play().catch(() => {});
+      audioRef.current?.play().catch((err) => {
+        console.warn('Не удалось повторить трек:', err.message);
+      });
       return;
     }
     dispatch(setNextTrack());
@@ -85,15 +89,24 @@ export default function Bar() {
     audioRef.current
       .play()
       .then(() => dispatch(setIsPlay(true)))
-      .catch(() => dispatch(setIsPlay(false)));
+      .catch((err) => {
+        console.warn('Не удалось запустить новый трек:', err.message);
+        dispatch(setIsPlay(false));
+      });
   }, [currentTrack, dispatch]);
 
   // Управление isPlay
   useEffect(() => {
     if (!audioRef.current) return;
-    if (isPlay) audioRef.current.play().catch(() => {});
-    else audioRef.current.pause();
-  }, [isPlay]);
+    if (isPlay) {
+      audioRef.current.play().catch((err) => {
+        console.warn('Не удалось возобновить воспроизведение:', err.message);
+        dispatch(setIsPlay(false));
+      });
+    } else {
+      audioRef.current.pause();
+    }
+  }, [isPlay, dispatch]);
 
   if (!currentTrack) return null;
 

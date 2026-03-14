@@ -37,6 +37,17 @@ export default function Centerblock({
   const filters = ['исполнителю', 'году выпуска', 'жанру'];
   const items = ['Трек', 'Исполнитель', 'Альбом', 'Время'];
 
+  // Рендер скелетонов при загрузке
+  const renderSkeletons = () => {
+    return (
+      <div className={styles.content__playlist}>
+        {[...Array(5)].map((_, index) => (
+          <div key={`skeleton-${index}`} className={styles.skeletonItem} />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className={styles.centerblock}>
       <Search />
@@ -50,14 +61,7 @@ export default function Centerblock({
         <FilterItem items={items} />
 
         {isLoading ? (
-          <div className={styles.loading}>
-            Данные загружаются{' '}
-            <span className={styles.dots}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-          </div>
+          renderSkeletons()
         ) : errorRes ? (
           <div className={styles.error}>
             {errorRes}{' '}
