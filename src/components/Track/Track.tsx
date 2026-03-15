@@ -17,15 +17,16 @@ import { useCallback, useState, useRef, useEffect } from 'react';
 type TrackProps = {
   track: TrackType;
   playlist: TrackType[];
+  onLikeClick?: () => void; // Кастомный обработчик для страницы избранного
 };
 
-export default function Track({ track, playlist }: TrackProps) {
+export default function Track({ track, playlist, onLikeClick }: TrackProps) {
   const dispatch = useAppDispatch();
   const isPlay = useAppSelector((state) => state.tracks.isPlay);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
 
-  const { access, refresh } = useAppSelector((state) => state.auth);
-  const isAuthReady = Boolean(access && refresh);
+  const { access } = useAppSelector((state) => state.auth);
+  const isAuthReady = Boolean(access);
 
   const isActive = currentTrack?._id === track._id;
 
@@ -33,7 +34,6 @@ export default function Track({ track, playlist }: TrackProps) {
   const [showLoginMessage, setShowLoginMessage] = useState(false);
   const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Очищаем таймаут при размонтировании
   useEffect(() => {
     return () => {
       if (messageTimeoutRef.current) {
@@ -55,14 +55,12 @@ export default function Track({ track, playlist }: TrackProps) {
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     
-    // Сбрасываем предыдущий таймаут
     if (messageTimeoutRef.current) {
       clearTimeout(messageTimeoutRef.current);
     }
     
     if (!isAuthReady) {
       setShowLoginMessage(true);
-      // Автоматически скрываем сообщение через 2 секунды
       messageTimeoutRef.current = setTimeout(() => {
         setShowLoginMessage(false);
       }, 2000);
@@ -70,7 +68,13 @@ export default function Track({ track, playlist }: TrackProps) {
     }
     
     setShowLoginMessage(false);
-    if (!isLoading) toggleLike();
+    
+    // Если есть кастомный обработчик (для страницы избранного), используем его
+    if (onLikeClick) {
+      onLikeClick();
+    } else {
+      if (!isLoading) toggleLike();
+    }
   };
 
   return (

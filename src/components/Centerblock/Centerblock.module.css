@@ -1,9 +1,8 @@
 .centerblock {
-  width: auto;
-  -webkit-box-flex: 3;
-  -ms-flex-positive: 3;
-  flex-grow: 3;
-  padding: 20px 40px 20px 111px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .centerblock__h2 {
@@ -17,38 +16,52 @@
 }
 
 .centerblock__filter {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   margin-bottom: 51px;
+  min-height: 40px; /* Фиксированная высота */
 }
 
 .centerblock__content {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
+  flex: 1;
+  min-height: 0; /* Важно для flex-контейнера */
 }
 
 .content__playlist {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
   overflow-y: auto;
+  min-height: 480px; /* Фиксированная минимальная высота */
+  max-height: calc(100vh - 350px); /* Максимальная высота с учетом других элементов */
+}
+
+/* Скелетоны для загрузки */
+.skeletonItem {
+  width: 100%;
+  height: 60px;
+  margin-bottom: 12px;
+  background: linear-gradient(
+    90deg,
+    #2a2a2a 25%,
+    #3a3a3a 50%,
+    #2a2a2a 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+  flex-shrink: 0; /* Запрещаем сжатие */
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .loading {
@@ -67,6 +80,16 @@
   font-weight: 500;
   color: #ffffff;
   letter-spacing: 0.4px;
+  margin: 25px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.error {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ff6b6b;
   margin: 25px 0;
   display: flex;
   align-items: center;
@@ -112,16 +135,6 @@
     opacity: 0.2;
     transform: translateY(0);
   }
-}
-
-.error {
-  font-size: 18px;
-  font-weight: 600;
-  color: #ff6b6b;
-  margin: 25px 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .errorDots span {
@@ -180,5 +193,9 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  min-height: 400px;
+  min-height: 480px;
+}
+
+.centerblock__filter {
+  min-height: 40px;
 }

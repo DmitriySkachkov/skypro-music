@@ -27,7 +27,6 @@ export const useLikeTrack = (
     ? favoriteTracks.some((t) => t._id === track._id)
     : false;
 
-  // Функция для обновления списка избранного с сервера
   const refreshFavoriteTracks = useCallback(async () => {
     if (!access || !refresh) return;
     
@@ -64,7 +63,6 @@ export const useLikeTrack = (
         access,
       );
 
-      // После успешного действия перезапрашиваем актуальный список избранного
       await refreshFavoriteTracks();
       
     } catch (error) {

@@ -19,7 +19,9 @@ export default function MusicLayout({ children }: MusicLayoutProps) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        <Navigation />
+        <div className={styles.main__nav}>
+          <Navigation />
+        </div>
 
         <div className={styles.page__content}>
           <main className={styles.centerblock}>
@@ -34,7 +36,9 @@ export default function MusicLayout({ children }: MusicLayoutProps) {
               </>
             )}
           </main>
-          <Sidebar />
+          <div className={styles.main__sidebar}>
+            <Sidebar />
+          </div>
         </div>
 
         <Bar />
