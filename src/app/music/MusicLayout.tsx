@@ -3,9 +3,9 @@
 import { ReactNode } from 'react';
 import styles from './MusicLayout.module.css';
 
-import Navigation from '@/components/Navigation/Navigation';
-import Sidebar from '@/components/Sidebar/Sidebar';
-import Bar from '@/components/Bar/Bar';
+import Navigation from '@/components/navigation/Navigation';
+import Sidebar from '@/components/sidebar/Sidebar';
+import Bar from '@/components/bar/Bar';
 import FetchingTracks from '@/components/FetchingTracks/FetchingTracks';
 import { useInitAuth } from '@/hooks/useInitAuth';
 
@@ -19,7 +19,9 @@ export default function MusicLayout({ children }: MusicLayoutProps) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        <Navigation />
+        <div className={styles.main__nav}>
+          <Navigation />
+        </div>
 
         <div className={styles.page__content}>
           <main className={styles.centerblock}>
@@ -34,7 +36,9 @@ export default function MusicLayout({ children }: MusicLayoutProps) {
               </>
             )}
           </main>
-          <Sidebar />
+          <div className={styles.main__sidebar}>
+            <Sidebar />
+          </div>
         </div>
 
         <Bar />

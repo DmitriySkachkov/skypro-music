@@ -13,18 +13,13 @@ export default function MyPlaylistPage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { favoriteTracks } = useAppSelector((state) => state.tracks);
+  const { favoriteTracks, fetchIsLoading } = useAppSelector((state) => state.tracks);
   const { access, refresh } = useAppSelector((state) => state.auth);
 
-  const [tracks, setTracks] = useState(favoriteTracks);
   const [isLoading, setIsLoading] = useState(false);
   const [errorRes, setErrorRes] = useState<string | null>(null);
 
-  useEffect(() => {
-    setTracks(favoriteTracks);
-  }, [favoriteTracks]);
-
-  // ограничение доступа
+  // Редирект если не авторизован
   useEffect(() => {
     if (!access) {
       router.replace('/music/main');
@@ -47,7 +42,7 @@ export default function MyPlaylistPage() {
         dispatch,
         access,
       );
-      // удаляем трек из Redux
+      // Удаляем трек из Redux
       dispatch(removeLikedTracks(trackId));
     } catch (err) {
       setErrorRes('Не удалось удалить трек из избранного');
@@ -57,10 +52,39 @@ export default function MyPlaylistPage() {
     }
   };
 
+  // Показываем загрузку, пока треки не загружены
+  if (fetchIsLoading) {
+    return (
+      <MusicLayout>
+        <Centerblock
+          tracks={[]}
+          isLoading={true}
+          errorRes={null}
+          itemName="Мой плейлист"
+        />
+      </MusicLayout>
+    );
+  }
+
+  // Если избранное пустое - показываем пустой список
+  if (!favoriteTracks || favoriteTracks.length === 0) {
+    return (
+      <MusicLayout>
+        <Centerblock
+          tracks={[]}
+          isLoading={false}
+          errorRes={null}
+          itemName="Мой плейлист"
+        />
+      </MusicLayout>
+    );
+  }
+
+  // Отображаем только избранные треки
   return (
     <MusicLayout>
       <Centerblock
-        tracks={tracks}
+        tracks={favoriteTracks}
         isLoading={isLoading}
         errorRes={errorRes}
         itemName="Мой плейлист"

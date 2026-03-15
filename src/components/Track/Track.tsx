@@ -12,25 +12,35 @@ import {
 } from '@/store/features/trackSlice';
 import classNames from 'classnames';
 import { useLikeTrack } from '@/hooks/useLikeTracks';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
 
 type TrackProps = {
   track: TrackType;
   playlist: TrackType[];
+  onLikeClick?: () => void; // Кастомный обработчик для страницы избранного
 };
 
-export default function Track({ track, playlist }: TrackProps) {
+export default function Track({ track, playlist, onLikeClick }: TrackProps) {
   const dispatch = useAppDispatch();
   const isPlay = useAppSelector((state) => state.tracks.isPlay);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
 
-  const { access, refresh } = useAppSelector((state) => state.auth);
-  const isAuthReady = Boolean(access && refresh);
+  const { access } = useAppSelector((state) => state.auth);
+  const isAuthReady = Boolean(access);
 
   const isActive = currentTrack?._id === track._id;
 
   const { toggleLike, isLike, isLoading } = useLikeTrack(track, isAuthReady);
   const [showLoginMessage, setShowLoginMessage] = useState(false);
+  const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (messageTimeoutRef.current) {
+        clearTimeout(messageTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const onClickTrack = useCallback(() => {
     if (isActive) {
@@ -44,12 +54,27 @@ export default function Track({ track, playlist }: TrackProps) {
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    
+    if (messageTimeoutRef.current) {
+      clearTimeout(messageTimeoutRef.current);
+    }
+    
     if (!isAuthReady) {
-      setShowLoginMessage(true); // показываем сообщение
+      setShowLoginMessage(true);
+      messageTimeoutRef.current = setTimeout(() => {
+        setShowLoginMessage(false);
+      }, 2000);
       return;
     }
-    setShowLoginMessage(false); // сбрасываем сообщение, если пользователь авторизован
-    if (!isLoading) toggleLike();
+    
+    setShowLoginMessage(false);
+    
+    // Если есть кастомный обработчик (для страницы избранного), используем его
+    if (onLikeClick) {
+      onLikeClick();
+    } else {
+      if (!isLoading) toggleLike();
+    }
   };
 
   return (
@@ -95,14 +120,14 @@ export default function Track({ track, playlist }: TrackProps) {
         <div className={styles.track__likeContainer}>
           <svg
             className={classNames(styles.track__timeSvg, {
-              [styles.likeActive]: isLike,
+              [styles.likeActive]: isLike && isAuthReady,
               [styles.likeLoading]: isLoading,
             })}
             onClick={handleLikeClick}
           >
             <use
               xlinkHref={`/img/icon/sprite.svg#${
-                isLike ? 'icon-like' : 'icon-dislike'
+                isLike && isAuthReady ? 'icon-like' : 'icon-dislike'
               }`}
             />
           </svg>

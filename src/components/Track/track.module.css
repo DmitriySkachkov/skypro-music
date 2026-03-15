@@ -151,14 +151,30 @@
 
 .loginMessage {
   position: absolute;
-  top: -28px;
+  bottom: -30px;
   left: 50%;
-  transform: translateX(-80%);
+  transform: translateX(-50%);
   color: #fff;
-  padding: 2px 6px;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
   white-space: nowrap;
   pointer-events: none;
-  z-index: 10;
+  z-index: 1000;
+  border: 1px solid #4e4e4e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.loginMessage::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid rgba(0, 0, 0, 0.8);
 }

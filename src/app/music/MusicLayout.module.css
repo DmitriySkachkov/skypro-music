@@ -12,60 +12,87 @@
   margin: 0 auto;
   background-color: #181818;
   display: flex;
+  position: relative;
+}
+
+/* Фиксированная ширина навигации */
+.main__nav {
+  width: 244px;
+  flex-shrink: 0;
+  background-color: #181818;
+  padding: 20px 0 20px 36px;
 }
 
 /* Контейнер страницы с центроблоком и сайдбаром */
 .page__content {
   display: flex;
+  flex: 1;
   gap: 20px;
   flex-wrap: nowrap;
+  min-width: 0; /* Важно для flex-детей */
 }
 
-/* Центрблок с контентом */
+/* Центрблок с контентом - занимает всё доступное место */
 .centerblock {
   flex: 1 1 auto;
   min-width: 300px;
-  padding: 20px;
+  padding: 20px 40px 20px 111px;
   overflow-x: hidden;
 }
 
-/* Сайдбар с плейлистом (справа) */
-.content__playlist {
+/* Фиксированная ширина сайдбара */
+.main__sidebar {
+  width: 418px;
+  flex-shrink: 0;
+  padding: 20px 90px 20px 78px;
+}
+
+/* Контейнер для загрузки - занимает всю ширину центроблока */
+.loader {
   display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  max-height: calc(100vh - 150px);
-  width: 250px;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  width: 100%;
+  height: 100%;
+}
+
+.loader p {
+  color: #ffffff;
+  font-size: 18px;
+  text-align: center;
 }
 
 /* Адаптив для планшетов (до 1440px) */
 @media (max-width: 1440px) {
-  .page__content {
-    flex-direction: row;
-    gap: 16px;
-  }
-  .content__playlist {
+  .main__nav {
     width: 220px;
+    padding: 20px 0 20px 24px;
   }
+  
   .centerblock {
-    padding: 16px;
+    padding: 20px 30px 20px 70px;
+  }
+  
+  .main__sidebar {
+    width: 350px;
+    padding: 20px 40px 20px 40px;
   }
 }
 
 /* Адаптив для мобильных (до 1024px) */
 @media (max-width: 1024px) {
-  .page__content {
-    flex-direction: row;
-    gap: 12px;
+  .main__nav {
+    width: 180px;
+    padding: 20px 0 20px 16px;
   }
-  .content__playlist {
-    width: 200px;
-    max-height: calc(100vh - 150px);
-    overflow-y: auto;
-  }
+  
   .centerblock {
-    padding: 12px;
-    flex: 1 1 auto;
-    min-width: 0;
+    padding: 16px 20px 16px 40px;
+  }
+  
+  .main__sidebar {
+    width: 280px;
+    padding: 20px 20px 20px 20px;
   }
 }
