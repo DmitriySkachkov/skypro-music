@@ -23,12 +23,14 @@ export default function Centerblock({
   isLoading,
   errorRes,
   itemName,
+  onLikeClick,
 }: CenterblockProps) {
   const dispatch = useAppDispatch();
   const { filteredTracks } = useAppSelector((state) => state.tracks);
 
+  // Устанавливаем переданные треки как текущий плейлист страницы
   useEffect(() => {
-    if (!isLoading && tracks.length) {
+    if (!isLoading && tracks.length > 0) {
       dispatch(setPagePlaylist(tracks));
       dispatch(resetFilters());
     }
@@ -37,27 +39,35 @@ export default function Centerblock({
   const filters = ['исполнителю', 'году выпуска', 'жанру'];
   const items = ['Трек', 'Исполнитель', 'Альбом', 'Время'];
 
+  const renderSkeletons = () => {
+    return (
+      <div className={styles.content__playlist}>
+        {[...Array(5)].map((_, index) => (
+          <div key={`skeleton-${index}`} className={styles.skeletonItem} />
+        ))}
+      </div>
+    );
+  };
+
+  // Определяем, какие треки показывать
+  const displayTracks = tracks.length > 0 ? filteredTracks : [];
+
   return (
     <div className={styles.centerblock}>
       <Search />
       <h2 className={styles.centerblock__h2}>{itemName}</h2>
 
-      <div className={styles.centerblock__filter}>
-        <Filter title={filters} tracks={tracks} />
-      </div>
+      {!isLoading && tracks.length > 0 && (
+        <div className={styles.centerblock__filter}>
+          <Filter title={filters} tracks={tracks} />
+        </div>
+      )}
 
       <div className={styles.centerblock__content}>
-        <FilterItem items={items} />
+        {!isLoading && tracks.length > 0 && <FilterItem items={items} />}
 
         {isLoading ? (
-          <div className={styles.loading}>
-            Данные загружаются{' '}
-            <span className={styles.dots}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-          </div>
+          renderSkeletons()
         ) : errorRes ? (
           <div className={styles.error}>
             {errorRes}{' '}
@@ -67,12 +77,21 @@ export default function Centerblock({
               <span>!</span>
             </span>
           </div>
-        ) : filteredTracks.length === 0 ? (
-          <div className={styles.empty}>Нет подходящих треков</div>
+        ) : displayTracks.length === 0 ? (
+          <div className={styles.empty}>
+            {itemName === "Мой плейлист" 
+              ? "У вас пока нет избранных треков" 
+              : "Нет подходящих треков"}
+          </div>
         ) : (
           <div className={styles.content__playlist}>
-            {filteredTracks.map((track) => (
-              <Track key={track._id} track={track} playlist={filteredTracks} />
+            {displayTracks.map((track) => (
+              <Track 
+                key={track._id} 
+                track={track} 
+                playlist={displayTracks}
+                onLikeClick={onLikeClick ? () => onLikeClick(track._id) : undefined}
+              />
             ))}
           </div>
         )}

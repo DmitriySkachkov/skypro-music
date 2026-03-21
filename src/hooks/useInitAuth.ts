@@ -39,16 +39,22 @@ export const useInitAuth = () => {
         }
 
         if (typeof access === 'string' && typeof refresh === 'string') {
+          // Загружаем избранные треки только для авторизованных пользователей
           const favs = await withReAuth(
             (token) => getFavoriteTracks(token),
             refresh,
             dispatch,
             access,
           );
-          dispatch(setFavoriteTracks(favs));
+          dispatch(setFavoriteTracks(favs || []));
+        } else {
+          // Для неавторизованных - пустой массив
+          dispatch(setFavoriteTracks([]));
         }
-      } catch {
+      } catch (error) {
+        console.error('Ошибка инициализации:', error);
         dispatch(clearUser());
+        dispatch(setFavoriteTracks([]));
       } finally {
         setIsAuthReady(true);
       }
